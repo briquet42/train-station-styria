@@ -9,5 +9,33 @@
         android:text="Train Station Displays"
         android:id="@+id/textView4"
         android:layout_gravity="center_horizontal"
-        android:textSize="30dp"/>
+        android:textSize="30dp"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calculate next train station"
+        android:id="@+id/butCalc"
+        android:onClick="openCalcMain"
+        android:textSize="25dp"
+        android:layout_marginTop="30dp"
+        android:layout_margin="10dp"/>
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter a trainstation"
+        android:id="@+id/butInput"
+        android:onClick="openEnterName"
+        android:textSize="25dp"
+        android:layout_margin="10dp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/zug"/>
 </LinearLayout>
