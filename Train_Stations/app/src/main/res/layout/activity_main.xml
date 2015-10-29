@@ -10,9 +10,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Train Stations"
+        android:text="Find next train station:"
         android:id="@+id/textView"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentTop="true"
+        android:textSize="20dp"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -20,7 +21,8 @@
         android:text="show actual position"
         android:layout_below="@id/textView"
         android:onClick="getPosition"
-        android:id="@+id/butGPS" />
+        android:id="@+id/butGPS"
+        android:textSize="20dp"/>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -34,13 +36,15 @@
         android:layout_height="wrap_content"
         android:text="Longitude: "
         android:id="@+id/textView2"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"
+        android:textSize="20dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        android:id="@+id/txtLong"/>
+        android:id="@+id/txtLong"
+        android:textSize="20dp"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -55,6 +59,7 @@
         android:text="Latitude: "
         android:id="@+id/textView3"
         android:layout_centerVertical="true"
+        android:textSize="20dp"
        />
 
 
@@ -62,7 +67,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        android:id="@+id/txtLati"/>
+        android:id="@+id/txtLati"
+        android:textSize="20dp"/>
     </LinearLayout>
 
 </RelativeLayout>
