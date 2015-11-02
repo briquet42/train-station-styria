@@ -14,8 +14,15 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
+        android:id="@+id/txtStation"
         android:textSize="20dp"
-        android:contentDescription="Enter name of trainstation"/>
+        android:contentDescription="Enter name of train station"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get departure display"
+        android:onClick="getDisplay"
+        android:id="@+id/button" />
 
 </LinearLayout>
