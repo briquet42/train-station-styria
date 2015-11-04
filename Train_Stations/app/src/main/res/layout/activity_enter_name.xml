@@ -26,8 +26,14 @@
         android:onClick="getDisplay"
         android:id="@+id/button" />
 
+
+    <TimePicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tpActualTime" />
+
     <TextView
-        android:layout_height="match_parent"
+        android:layout_height="287dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text=""
         android:id="@+id/txtOutput"

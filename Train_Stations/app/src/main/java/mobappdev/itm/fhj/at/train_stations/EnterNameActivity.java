@@ -8,6 +8,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +25,8 @@ public class EnterNameActivity extends Activity implements ICallBack{
     private EditText inputStation;
     private TextView outputDisplay;
     private SharedPreferences prefs;
+    private TimePicker actTime;
+    private int hour, min;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +42,11 @@ public class EnterNameActivity extends Activity implements ICallBack{
     }
 
     public void getDisplay(View v){
-        String sUrl = "http://fahrplan.oebb.at/bin/stboard.exe/dn?L=vs_scotty.vs_liveticker&evaId=8100031&boardType=dep&time=11:31&productsFilter=1111111111111111&additionalTime=0&disableEquivs=yes&maxJourneys=10&outputMode=tickerDataOnly&start=yes&selectDate=today\n";
+        outputDisplay.setText("");
+        actTime=(TimePicker)findViewById(R.id.tpActualTime);
+        hour=actTime.getCurrentHour();
+        min=actTime.getCurrentMinute();
+        String sUrl = "http://fahrplan.oebb.at/bin/stboard.exe/dn?L=vs_scotty.vs_liveticker&evaId=8100031&boardType=dep&time="+hour+":"+min+"&productsFilter=1111111111111111&additionalTime=0&disableEquivs=yes&maxJourneys=10&outputMode=tickerDataOnly&start=yes&selectDate=today\n";
         HttpHelper helper = new HttpHelper();
         helper.setCallback(this);
         helper.execute(sUrl);
