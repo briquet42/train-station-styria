@@ -3,7 +3,9 @@ package mobappdev.itm.fhj.at.train_stations;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SyncStatusObserver;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.EditText;
@@ -27,6 +29,8 @@ public class EnterNameActivity extends Activity implements ICallBack{
     private SharedPreferences prefs;
     private TimePicker actTime;
     private int hour, min;
+    private String station="";
+    private int idStation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +50,17 @@ public class EnterNameActivity extends Activity implements ICallBack{
         actTime=(TimePicker)findViewById(R.id.tpActualTime);
         hour=actTime.getCurrentHour();
         min=actTime.getCurrentMinute();
-        String sUrl = "http://fahrplan.oebb.at/bin/stboard.exe/dn?L=vs_scotty.vs_liveticker&evaId=8100031&boardType=dep&time="+hour+":"+min+"&productsFilter=1111111111111111&additionalTime=0&disableEquivs=yes&maxJourneys=10&outputMode=tickerDataOnly&start=yes&selectDate=today\n";
+
+        station=inputStation.getText().toString();
+        ListStations listStations=new ListStations();
+        for(Station s:listStations.stations){
+           if(station.equals(s.getName())){
+                idStation=s.getId();
+                break;
+            }
+        }
+
+        String sUrl = "http://fahrplan.oebb.at/bin/stboard.exe/dn?L=vs_scotty.vs_liveticker&evaId="+idStation+"&boardType=dep&time="+hour+":"+min+"&productsFilter=1111111111111111&additionalTime=0&disableEquivs=yes&maxJourneys=10&outputMode=tickerDataOnly&start=yes&selectDate=today\n";
         HttpHelper helper = new HttpHelper();
         helper.setCallback(this);
         helper.execute(sUrl);
@@ -62,9 +76,6 @@ public class EnterNameActivity extends Activity implements ICallBack{
         try {
             JSONObject jsonObject = new JSONObject(jsonString.substring(14));
             JSONArray ja = jsonObject.getJSONArray("journey");
-           // String weatherStr = ja.getJSONObject(0).getString("st") + ", " + ja.getJSONObject(0).getString("st");
-          //  this.outputDisplay.setText(weatherStr);
-            //this.outputDisplay.setText((CharSequence) ja);
 
             final int n = ja.length();
             for (int i = 0; i < n; ++i) {
