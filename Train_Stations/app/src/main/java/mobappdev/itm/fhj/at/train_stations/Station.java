@@ -1,39 +1,44 @@
 package mobappdev.itm.fhj.at.train_stations;
 
 /**
- * Created by Viktoria on 04.11.2015.
+ * Created by Viktoria on 06.11.2015.
  */
 public class Station {
-    private String name;
-    private int id;
-    private double lon,lat;
+    /**
+     * Created by Viktoria on 04.11.2015.
+     */
 
-    public Station(String name, int id, double lon, double lat){
-        this.name=name;
-        this.id=id;
-        this.lon=lon;
-        this.lat=lat;
-    }
+        private String name;
+        private int id;
+        private double lon,lat;
 
-    public String getName() {
-        return name;
-    }
+        public Station(String name, int id, double lon, double lat){
+            this.name=name;
+            this.id=id;
+            this.lon=lon;
+            this.lat=lat;
+        }
 
-    public int getId() {
-        return id;
-    }
+        public String getName() {
+            return name;
+        }
 
-    public double getLon() {
-        return lon;
-    }
+        public int getId() {
+            return id;
+        }
 
-    public double getLat() {
-        return lat;
-    }
+        public double getLon() {
+            return lon;
+        }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+        public double getLat() {
+            return lat;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
 
 
 }

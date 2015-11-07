@@ -1,13 +1,9 @@
 package mobappdev.itm.fhj.at.train_stations;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.SyncStatusObserver;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -15,9 +11,6 @@ import android.widget.TimePicker;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 /**
  * Created by Viktoria on 29.10.2015.
@@ -96,4 +89,6 @@ public class EnterNameActivity extends Activity implements ICallBack{
 
 
     }
+
+
 }

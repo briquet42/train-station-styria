@@ -18,6 +18,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 
 public class MainActivity extends Activity implements ICallBack{
     private LocationManager lm;
@@ -68,12 +70,22 @@ public class MainActivity extends Activity implements ICallBack{
             txtOutput.setText("");
             hour=tpActualTime.getCurrentHour();
             min=tpActualTime.getCurrentMinute();
+
+            //Mit for Schleife Liste der Bahnhöfe durchgehen und den nähseten suchen mit max-Variable, dann in den in andere URL einsetzen
+            ListStations listStations=new ListStations();
+            for(Station s:listStations.stations) {
+                String nextStatURL = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + txtlatitude.getText() + txtlongitude.getText() + "&destinations="+s.getLat()+s.getLon();
+                HttpHelper helper=new HttpHelper();
+                helper.setCallback(this);
+                helper.execute(nextStatURL);
+            }
             String sUrl = "http://fahrplan.oebb.at/bin/stboard.exe/dn?L=vs_scotty.vs_liveticker&evaId=8100031&boardType=dep&time="+hour+":"+min+"&productsFilter=1111111111111111&additionalTime=0&disableEquivs=yes&maxJourneys=10&outputMode=tickerDataOnly&start=yes&selectDate=today\n";
             HttpHelper helper = new HttpHelper();
             helper.setCallback(this);
             helper.execute(sUrl);
 
     }
+
 
 
     @Override
