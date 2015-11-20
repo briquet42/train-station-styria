@@ -69,15 +69,14 @@ public class EnterNameActivity extends Activity implements ICallBack{
         try {
             JSONObject jsonObject = new JSONObject(jsonString.substring(14));
             JSONArray ja = jsonObject.getJSONArray("journey");
+            outputDisplay.setText("time:   number:    direction: \n");
 
             final int n = ja.length();
             for (int i = 0; i < n; ++i) {
-                final JSONObject person = ja.getJSONObject(i);
-                String train=person.getString("ti")+"; "+person.getString("pr")+"; "+person.getString("lastStop");
-                this.outputDisplay.setText(outputDisplay.getText()+train+"\n");
-                System.out.println(person.getString("ti"));
-                System.out.println(person.getString("pr"));
-                System.out.println(person.getString("lastStop"));
+                final JSONObject station = ja.getJSONObject(i);
+                String train=station.getString("ti")+"  |  "+station.getString("pr")+"  |  "+station.getString("lastStop");
+                this.outputDisplay.setText(outputDisplay.getText() + train + "\n");
+
             }
 
 

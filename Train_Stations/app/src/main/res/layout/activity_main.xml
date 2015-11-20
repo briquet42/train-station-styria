@@ -94,8 +94,17 @@
         android:textSize="20dp"
         android:layout_marginTop="30dp"
         android:layout_margin="10dp"/>
-    </LinearLayout>
 
+    </LinearLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show Departuretable"
+        android:id="@+id/butDis"
+        android:onClick="printDepartureTable"
+        android:textSize="20dp"
+        android:layout_below="@id/linearLayout2"
+        android:layout_marginBottom="30dp"/>
         <TextView
             android:layout_height="25dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -103,7 +112,8 @@
             android:id="@+id/txtCityOutput"
             android:textSize="20dp"
             android:layout_below="@id/linearLayout2"
-            android:layout_width="match_parent" />
+            android:layout_width="match_parent"
+            android:layout_marginTop="45dp"/>
 
 
         <TextView
@@ -111,7 +121,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text=""
             android:id="@+id/txtOutput"
-            android:textSize="15dp"
+            android:textSize="18dp"
             android:layout_below="@id/txtCityOutput"
             android:layout_width="match_parent" />
 

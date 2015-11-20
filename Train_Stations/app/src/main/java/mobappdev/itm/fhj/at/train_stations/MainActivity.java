@@ -34,6 +34,7 @@ public class MainActivity extends Activity implements ICallBack, ICallBackDistan
     private  HttpHelperDistance helperDistance;
     private int value=1000000;
     private ListStations listStations;
+    private String cityName="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class MainActivity extends Activity implements ICallBack, ICallBackDistan
         txtlatitude=(TextView) findViewById(R.id.txtLati);
         txtOutput=(TextView) findViewById(R.id.txtOutput);
         txtCity=(TextView) findViewById(R.id.txtCityOutput);
+        txtCity.setVisibility(View.INVISIBLE);
 
     }
 
@@ -71,29 +73,39 @@ public class MainActivity extends Activity implements ICallBack, ICallBackDistan
       /*  if(txtlatitude.getText()==null && txtlongitude.getText()==null){ //Geht noch nicht
             txtOutput.setText("No position found! Calculate your position.");
         }*/
-            txtlatitude.setText("47.47947807");
-            txtlongitude.setText("15.495085015");
+        //47.454169, 15.330395
+            txtlatitude.setText("47.45416");
+            txtlongitude.setText("15.3303");
             tpActualTime=(TimePicker) findViewById(R.id.tpActualTimeCalc);
             txtOutput.setText("");
             txtCity.setText("");
+            txtCity.setVisibility(View.INVISIBLE);
+
             hour=tpActualTime.getCurrentHour();
             min=tpActualTime.getCurrentMinute();
 
-            //Mit for Schleife Liste der Bahnhöfe durchgehen und den nähseten suchen mit max-Variable, dann in den in andere URL einsetzen
+            String cityLat=txtlatitude.getText().toString();
+            String cityLon=txtlongitude.getText().toString();
+
+            //Mit for Schleife Liste der Bahnhoefe durchgehen und den naehseten suchen mit max-Variable, dann in den in andere URL einsetzen
            listStations =new ListStations();
             for(Station s:listStations.stations) {
-                String nextStatURL = "https://maps.googleapis.com/maps/api/distancematrix/json?origins="+ txtlatitude.getText() +","+ txtlongitude.getText() + "&destinations="+s.getLat()+","+s.getLon();
+                String nextStatURL = "https://maps.googleapis.com/maps/api/distancematrix/json?origins="+ cityLat +","+ cityLon + "&destinations="+s.getLat()+","+s.getLon();
                 helperDistance=new HttpHelperDistance();
                 helperDistance.setCallback(this);
                 helperDistance.execute(nextStatURL);
                 txtCity.setText(s.getName());
             }
 
+    }
 
+    public void printDepartureTable(View v)
+    {
+        txtCity.setVisibility(View.VISIBLE);
         String nearestStation=txtCity.getText().toString();
         double idStation=0;
         for(Station s:listStations.stations){
-            if(s.getName()==nearestStation){
+            if(s.getName().equals(nearestStation)){
                 idStation=s.getId();
             }
         }
@@ -103,8 +115,6 @@ public class MainActivity extends Activity implements ICallBack, ICallBackDistan
         helper.execute(sUrl);
     }
 
-
-
     @Override
     public void handleJSonString(String jsonString) {
         try {
@@ -112,9 +122,10 @@ public class MainActivity extends Activity implements ICallBack, ICallBackDistan
             JSONArray ja = jsonObject.getJSONArray("journey");
 
             final int n = ja.length();
+            txtOutput.setText("time:   number:    direction: \n");
             for (int i = 0; i < n; ++i) {
                 final JSONObject station = ja.getJSONObject(i);
-                String train=station.getString("ti")+"; "+station.getString("pr")+"; "+station.getString("lastStop");
+                String train=station.getString("ti")+"  |  "+station.getString("pr")+"  |  "+station.getString("lastStop");
                 this.txtOutput.setText(txtOutput.getText() + train + "\n");
                 System.out.println(station.getString("ti"));
                 System.out.println(station.getString("pr"));
@@ -131,15 +142,22 @@ public class MainActivity extends Activity implements ICallBack, ICallBackDistan
 
     @Override
     public void handleJSonStringDistance(String jsonString) {
+
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
             JSONArray rows=jsonObject.getJSONArray("rows");
+
             JSONArray elements = rows.getJSONObject(0).getJSONArray("elements");
             int distanceValue = elements.getJSONObject(0).getJSONObject("distance").getInt("value");
             while(value>distanceValue){
-                Log.i("!!!!!!!!!!!!!!!!!!!", distanceValue+"");
                 value=distanceValue;
+                String nearest=jsonObject.getString("destination_addresses");
+                String[] parts = nearest.split(",");
+                String plz_citys=parts[1];
+               cityName=plz_citys.substring(6);
+                txtCity.setText(cityName);
             }
+
 
         } catch (JSONException e) {
             e.printStackTrace();
