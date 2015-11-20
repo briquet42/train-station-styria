@@ -15,6 +15,7 @@
         android:layout_alignParentTop="true"
         android:textSize="20dp"/>
 
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -94,13 +95,24 @@
         android:layout_marginTop="30dp"
         android:layout_margin="10dp"/>
     </LinearLayout>
-    <TextView
-        android:layout_height="287dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text=""
-        android:id="@+id/txtOutput"
-        android:textSize="15dp"
-        android:layout_below="@id/linearLayout2"
-        android:layout_width="match_parent" />
+
+        <TextView
+            android:layout_height="25dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text=""
+            android:id="@+id/txtCityOutput"
+            android:textSize="20dp"
+            android:layout_below="@id/linearLayout2"
+            android:layout_width="match_parent" />
+
+
+        <TextView
+            android:layout_height="287dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text=""
+            android:id="@+id/txtOutput"
+            android:textSize="15dp"
+            android:layout_below="@id/txtCityOutput"
+            android:layout_width="match_parent" />
 
 </RelativeLayout>

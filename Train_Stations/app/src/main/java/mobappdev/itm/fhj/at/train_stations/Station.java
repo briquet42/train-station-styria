@@ -12,7 +12,7 @@ public class Station {
         private int id;
         private double lon,lat;
 
-        public Station(String name, int id, double lon, double lat){
+        public Station(String name, int id, double lat, double lon){
             this.name=name;
             this.id=id;
             this.lon=lon;
