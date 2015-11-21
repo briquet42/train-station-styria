@@ -49,14 +49,17 @@ public class EnterNameActivity extends Activity implements ICallBack{
         for(Station s:listStations.stations){
            if(station.equals(s.getName())){
                 idStation=s.getId();
+               String sUrl = "http://fahrplan.oebb.at/bin/stboard.exe/dn?L=vs_scotty.vs_liveticker&evaId="+idStation+"&boardType=dep&time="+hour+":"+min+"&productsFilter=1111111111111111&additionalTime=0&disableEquivs=yes&maxJourneys=10&outputMode=tickerDataOnly&start=yes&selectDate=today\n";
+               HttpHelper helper = new HttpHelper();
+               helper.setCallback(this);
+               helper.execute(sUrl);
                 break;
-            }
+            }else{
+               outputDisplay.setText("No train station found for this name");
+           }
         }
 
-        String sUrl = "http://fahrplan.oebb.at/bin/stboard.exe/dn?L=vs_scotty.vs_liveticker&evaId="+idStation+"&boardType=dep&time="+hour+":"+min+"&productsFilter=1111111111111111&additionalTime=0&disableEquivs=yes&maxJourneys=10&outputMode=tickerDataOnly&start=yes&selectDate=today\n";
-        HttpHelper helper = new HttpHelper();
-        helper.setCallback(this);
-        helper.execute(sUrl);
+
 
         //save the input as standard
         SharedPreferences.Editor edit = prefs.edit();
