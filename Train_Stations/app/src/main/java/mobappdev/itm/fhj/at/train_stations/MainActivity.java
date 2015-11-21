@@ -47,6 +47,9 @@ public class MainActivity extends Activity implements ICallBack, ICallBackDistan
         txtOutput=(TextView) findViewById(R.id.txtOutput);
         txtCity=(TextView) findViewById(R.id.txtCityOutput);
         txtCity.setVisibility(View.INVISIBLE);
+        /*Testzwecke
+        txtlatitude.setText("47.45416");
+        txtlongitude.setText("15.3303");*/
 
     }
 
@@ -70,49 +73,51 @@ public class MainActivity extends Activity implements ICallBack, ICallBackDistan
     }
 
     public void getNextStation(View v){
-      /*  if(txtlatitude.getText()==null && txtlongitude.getText()==null){ //Geht noch nicht
+        if(txtlatitude.getText().equals("") || txtlongitude.getText().equals("")){
             txtOutput.setText("No position found! Calculate your position.");
-        }*/
-        //47.454169, 15.330395
-            txtlatitude.setText("47.45416");
-            txtlongitude.setText("15.3303");
-            tpActualTime=(TimePicker) findViewById(R.id.tpActualTimeCalc);
+        }else {
+            tpActualTime = (TimePicker) findViewById(R.id.tpActualTimeCalc);
             txtOutput.setText("");
             txtCity.setText("");
             txtCity.setVisibility(View.INVISIBLE);
 
-            hour=tpActualTime.getCurrentHour();
-            min=tpActualTime.getCurrentMinute();
+            hour = tpActualTime.getCurrentHour();
+            min = tpActualTime.getCurrentMinute();
 
-            String cityLat=txtlatitude.getText().toString();
-            String cityLon=txtlongitude.getText().toString();
+            String cityLat = txtlatitude.getText().toString();
+            String cityLon = txtlongitude.getText().toString();
 
             //Mit for Schleife Liste der Bahnhoefe durchgehen und den naehseten suchen mit max-Variable, dann in den in andere URL einsetzen
-           listStations =new ListStations();
-            for(Station s:listStations.stations) {
-                String nextStatURL = "https://maps.googleapis.com/maps/api/distancematrix/json?origins="+ cityLat +","+ cityLon + "&destinations="+s.getLat()+","+s.getLon();
-                helperDistance=new HttpHelperDistance();
+            listStations = new ListStations();
+            for (Station s : listStations.stations) {
+                String nextStatURL = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + cityLat + "," + cityLon + "&destinations=" + s.getLat() + "," + s.getLon();
+                helperDistance = new HttpHelperDistance();
                 helperDistance.setCallback(this);
                 helperDistance.execute(nextStatURL);
                 txtCity.setText(s.getName());
             }
+        }
 
     }
 
     public void printDepartureTable(View v)
     {
-        txtCity.setVisibility(View.VISIBLE);
-        String nearestStation=txtCity.getText().toString();
-        double idStation=0;
-        for(Station s:listStations.stations){
-            if(s.getName().equals(nearestStation)){
-                idStation=s.getId();
+        if(txtCity.getText().equals("")){
+            txtOutput.setText("No train station found at the moment! Please calculate the next one.");
+        }else {
+            txtCity.setVisibility(View.VISIBLE);
+            String nearestStation = txtCity.getText().toString();
+            double idStation = 0;
+            for (Station s : listStations.stations) {
+                if (s.getName().equals(nearestStation)) {
+                    idStation = s.getId();
+                }
             }
+            String sUrl = "http://fahrplan.oebb.at/bin/stboard.exe/dn?L=vs_scotty.vs_liveticker&evaId=" + idStation + "&boardType=dep&time=" + hour + ":" + min + "&productsFilter=1111111111111111&additionalTime=0&disableEquivs=yes&maxJourneys=10&outputMode=tickerDataOnly&start=yes&selectDate=today\n";
+            HttpHelper helper = new HttpHelper();
+            helper.setCallback(this);
+            helper.execute(sUrl);
         }
-        String sUrl = "http://fahrplan.oebb.at/bin/stboard.exe/dn?L=vs_scotty.vs_liveticker&evaId="+idStation+"&boardType=dep&time="+hour+":"+min+"&productsFilter=1111111111111111&additionalTime=0&disableEquivs=yes&maxJourneys=10&outputMode=tickerDataOnly&start=yes&selectDate=today\n";
-        HttpHelper helper = new HttpHelper();
-        helper.setCallback(this);
-        helper.execute(sUrl);
     }
 
     @Override
@@ -130,7 +135,6 @@ public class MainActivity extends Activity implements ICallBack, ICallBackDistan
                 System.out.println(station.getString("ti"));
                 System.out.println(station.getString("pr"));
                 System.out.println(station.getString("lastStop"));
-                //TODO Verspaetung hinzufuegen
             }
 
 

@@ -15,7 +15,7 @@ public class ListStations {
         sKap=new Station("Kapfenberg",8100031,47.445351, 15.292030);
         sMarein =new Station("St. Marein im Mürztal", 8101243,47.474122,15.373639);
         sLeob=new Station("Leoben",8100070,47.386465,15.090009);
-        sBruck=new Station("Bruck an der Mur",8100032,47.410051, 15.269105);//Koordinaten
+        sBruck=new Station("Bruck an der Mur",8100032,47.410051, 15.269105);
         sAller=new Station("Allerheiligen im Mürztal",8100613,47.480690, 15.406284);
         sNikl=new Station("Niklasdorf",8101275 ,47.394298, 15.155502);
         sKin=new Station("Kindberg",8100030 ,47.501363, 15.448393);
