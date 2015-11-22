@@ -9,6 +9,7 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -176,8 +177,19 @@ public class MainActivity extends Activity implements ICallBack, ICallBackDistan
                 String nearest=jsonObject.getString("destination_addresses");
                 String[] parts = nearest.split(",");
                 String plz_citys=parts[1];
-               cityName=plz_citys.substring(6);
-                txtCity.setText(cityName);
+                cityName=plz_citys.substring(6);
+                //wenn eine Stadt mit mehr Namen vorkommt wird auf den Straﬂennamen geschaut
+                if(cityName.equals("Kapfenberg")){
+                    String streets=parts[0];
+                    String street=streets.substring(0,5);
+                    if(street.equals("Bah")){
+                        txtCity.setText("Kapfenberg");
+                    }else if(street.equals("Wer")){
+                        txtCity.setText("Kapfenberg Fachhochschule");
+                    }
+                }else {
+                    txtCity.setText(cityName);
+                }
             }
 
 
