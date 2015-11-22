@@ -33,7 +33,7 @@ public class MainActivity extends Activity implements ICallBack, ICallBackDistan
     private TimePicker tpActualTime;
     private int hour, min;
     private  HttpHelperDistance helperDistance;
-    private int value=1000000;
+    private int value;
     private ListStations listStations;
     private String cityName="";
 
@@ -90,6 +90,7 @@ public class MainActivity extends Activity implements ICallBack, ICallBackDistan
             if(txtlatitude.getText().equals("") || txtlongitude.getText().equals("")){
                 txtOutput.setText("No position found! Calculate your position.");
             }else {
+                value=1000000;
                 //reads the current time form the timepicker
                 tpActualTime = (TimePicker) findViewById(R.id.tpActualTimeCalc);
                 hour = tpActualTime.getCurrentHour();
