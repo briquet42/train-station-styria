@@ -1,7 +1,10 @@
 package mobappdev.itm.fhj.at.train_stations;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -38,30 +41,42 @@ public class EnterNameActivity extends Activity implements ICallBack{
 
     }
 
+    private boolean isConnectingToInternet(Context applicationContext){
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        if (ni == null) {
+            outputDisplay.setText("No internet connection! Activate your internet.");
+            return false;
+        } else
+            return true;
+
+    }
+
     public void getDisplay(View v){
-        outputDisplay.setText("");
-        //read time from Timepicker
-        actTime=(TimePicker)findViewById(R.id.tpActualTime);
-        hour=actTime.getCurrentHour();
-        min=actTime.getCurrentMinute();
+        if(isConnectingToInternet(getApplicationContext())) {
+            outputDisplay.setText("");
+            //read time from Timepicker
+            actTime = (TimePicker) findViewById(R.id.tpActualTime);
+            hour = actTime.getCurrentHour();
+            min = actTime.getCurrentMinute();
 
-        station=inputStation.getText().toString();
-        ListStations listStations=new ListStations();
-        //alle bahenhoefe durchgehen, bis der mit der gleichen id gefunden wird, wie der in der Eingabe ; sonst wird eine Fehlermeldung ausgegeben
-        for(Station s:listStations.stations){
-           if(station.equals(s.getName())){
-                idStation=s.getId();
-               String sUrl = "http://fahrplan.oebb.at/bin/stboard.exe/dn?L=vs_scotty.vs_liveticker&evaId="+idStation+"&boardType=dep&time="+hour+":"+min+"&productsFilter=1111111111111111&additionalTime=0&disableEquivs=yes&maxJourneys=10&outputMode=tickerDataOnly&start=yes&selectDate=today\n";
-               HttpHelper helper = new HttpHelper();
-               helper.setCallback(this);
-               helper.execute(sUrl);
-                break;
-            }else{
-               outputDisplay.setText("No train station found for this name");
-           }
+            station = inputStation.getText().toString();
+            ListStations listStations = new ListStations();
+            //alle bahenhoefe durchgehen, bis der mit der gleichen id gefunden wird, wie der in der Eingabe ; sonst wird eine Fehlermeldung ausgegeben
+            for (Station s : listStations.stations) {
+                if (station.equals(s.getName())) {
+                    idStation = s.getId();
+                    String sUrl = "http://fahrplan.oebb.at/bin/stboard.exe/dn?L=vs_scotty.vs_liveticker&evaId=" + idStation + "&boardType=dep&time=" + hour + ":" + min + "&productsFilter=1111111111111111&additionalTime=0&disableEquivs=yes&maxJourneys=10&outputMode=tickerDataOnly&start=yes&selectDate=today\n";
+                    HttpHelper helper = new HttpHelper();
+                    helper.setCallback(this);
+                    helper.execute(sUrl);
+                    break;
+                } else {
+                    outputDisplay.setText("No train station found for this name");
+                }
+            }
+
         }
-
-
 
         //save the input as standard
         SharedPreferences.Editor edit = prefs.edit();

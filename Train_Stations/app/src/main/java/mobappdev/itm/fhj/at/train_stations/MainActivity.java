@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -71,56 +73,69 @@ public class MainActivity extends Activity implements ICallBack, ICallBackDistan
 
     }
 
-    //TODO handeln wenn keine Internetverbindung
+    private boolean isConnectingToInternet(Context applicationContext){
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        if (ni == null) {
+            txtOutput.setText("No internet connection! Activate your internet.");
+            return false;
+        } else
+            return true;
+
+    }
+
 
     public void getNextStation(View v){
-        if(txtlatitude.getText().equals("") || txtlongitude.getText().equals("")){
-            txtOutput.setText("No position found! Calculate your position.");
-        }else {
-            //reads the current time form the timepicker
-            tpActualTime = (TimePicker) findViewById(R.id.tpActualTimeCalc);
-            hour = tpActualTime.getCurrentHour();
-            min = tpActualTime.getCurrentMinute();
+        if (isConnectingToInternet(getApplicationContext())){
+            if(txtlatitude.getText().equals("") || txtlongitude.getText().equals("")){
+                txtOutput.setText("No position found! Calculate your position.");
+            }else {
+                //reads the current time form the timepicker
+                tpActualTime = (TimePicker) findViewById(R.id.tpActualTimeCalc);
+                hour = tpActualTime.getCurrentHour();
+                min = tpActualTime.getCurrentMinute();
 
-            txtOutput.setText("");
-            txtCity.setText("");
-            //is invisible because it iterats the citys with lower costs
-            txtCity.setVisibility(View.INVISIBLE);
+                txtOutput.setText("");
+                txtCity.setText("");
+                //is invisible because it iterats the citys with lower costs
+                txtCity.setVisibility(View.INVISIBLE);
 
-            String cityLat = txtlatitude.getText().toString();
-            String cityLon = txtlongitude.getText().toString();
+                String cityLat = txtlatitude.getText().toString();
+                String cityLon = txtlongitude.getText().toString();
 
-            //Mit for Schleife Liste der Bahnhoefe durchgehen und dabei die latiduen und longituden vom aktuellen Standort beziwhungsweise allen Bahnoefe durchgehen
-            listStations = new ListStations();
-            for (Station s : listStations.stations) {
-                String nextStatURL = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + cityLat + "," + cityLon + "&destinations=" + s.getLat() + "," + s.getLon();
-                helperDistance = new HttpHelperDistance();
-                helperDistance.setCallback(this);
-                helperDistance.execute(nextStatURL);
-                txtCity.setText(s.getName());
-            }
-        }
+                //Mit for Schleife Liste der Bahnhoefe durchgehen und dabei die latiduen und longituden vom aktuellen Standort beziwhungsweise allen Bahnoefe durchgehen
+                listStations = new ListStations();
+                for (Station s : listStations.stations) {
+                    String nextStatURL = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + cityLat + "," + cityLon + "&destinations=" + s.getLat() + "," + s.getLon();
+                    helperDistance = new HttpHelperDistance();
+                    helperDistance.setCallback(this);
+                    helperDistance.execute(nextStatURL);
+                    txtCity.setText(s.getName());
+                }
+            }}
 
     }
 
     public void printDepartureTable(View v)
     {
-        if(txtCity.getText().equals("")){
-            txtOutput.setText("No train station found at the moment! Please calculate the next one.");
-        }else {
-            txtCity.setVisibility(View.VISIBLE);
-            String nearestStation = txtCity.getText().toString();
-            double idStation = 0;
-            for (Station s : listStations.stations) {
-                if (s.getName().equals(nearestStation)) {
-                    idStation = s.getId();
+        if(isConnectingToInternet(getApplicationContext())){
+            if(txtCity.getText().equals("")){
+                txtOutput.setText("No train station found at the moment! Please calculate the next one.");
+            }else {
+                txtCity.setVisibility(View.VISIBLE);
+                String nearestStation = txtCity.getText().toString();
+                double idStation = 0;
+                for (Station s : listStations.stations) {
+                    if (s.getName().equals(nearestStation)) {
+                        idStation = s.getId();
+                    }
                 }
-            }
-            //mit der id, die gleich der des naehsten Bahnhofes ist, sowie der Zeit aus dem Timepicker den Stationsplan abfragen
-            String sUrl = "http://fahrplan.oebb.at/bin/stboard.exe/dn?L=vs_scotty.vs_liveticker&evaId=" + idStation + "&boardType=dep&time=" + hour + ":" + min + "&productsFilter=1111111111111111&additionalTime=0&disableEquivs=yes&maxJourneys=10&outputMode=tickerDataOnly&start=yes&selectDate=today\n";
-            HttpHelper helper = new HttpHelper();
-            helper.setCallback(this);
-            helper.execute(sUrl);
+                //mit der id, die gleich der des naehsten Bahnhofes ist, sowie der Zeit aus dem Timepicker den Stationsplan abfragen
+                String sUrl = "http://fahrplan.oebb.at/bin/stboard.exe/dn?L=vs_scotty.vs_liveticker&evaId=" + idStation + "&boardType=dep&time=" + hour + ":" + min + "&productsFilter=1111111111111111&additionalTime=0&disableEquivs=yes&maxJourneys=10&outputMode=tickerDataOnly&start=yes&selectDate=today\n";
+                HttpHelper helper = new HttpHelper();
+                helper.setCallback(this);
+                helper.execute(sUrl);
+        }
         }
     }
 

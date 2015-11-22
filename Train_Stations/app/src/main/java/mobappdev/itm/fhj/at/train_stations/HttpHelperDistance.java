@@ -26,8 +26,6 @@ public class HttpHelperDistance  extends AsyncTask<String, Void, String> {
 
         StringBuilder out = new StringBuilder();
         try {
-            //for Testing: Hardcoded URL url = new URL("http://api.openweathermap.org/data/2.5/weather?q=kapfenberg");
-
             // get the string parameter from execute()
             URL url = new URL(params[0]);
 
