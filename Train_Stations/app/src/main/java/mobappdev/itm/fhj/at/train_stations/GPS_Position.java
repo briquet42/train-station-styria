@@ -14,23 +14,31 @@ public class GPS_Position implements LocationListener {
 
     public static double latitude;
     public static double longitude;
+    private TextView lat, lon;
+
+    public GPS_Position(TextView lat, TextView lon){
+        this.lat=lat;
+        this.lon=lon;
+    }
 
     @Override
     public void onLocationChanged(Location loc)
     {
         latitude=loc.getLatitude();
         longitude=loc.getLongitude();
+        lat.setText(latitude+"");
+        lon.setText(longitude+"");
     }
 
     @Override
     public void onProviderDisabled(String provider)
     {
-        //print "Currently GPS is Disabled";
+
     }
     @Override
     public void onProviderEnabled(String provider)
     {
-        //print "GPS got Enabled";
+
     }
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras)

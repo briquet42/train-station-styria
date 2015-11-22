@@ -40,12 +40,14 @@ public class EnterNameActivity extends Activity implements ICallBack{
 
     public void getDisplay(View v){
         outputDisplay.setText("");
+        //read time from Timepicker
         actTime=(TimePicker)findViewById(R.id.tpActualTime);
         hour=actTime.getCurrentHour();
         min=actTime.getCurrentMinute();
 
         station=inputStation.getText().toString();
         ListStations listStations=new ListStations();
+        //alle bahenhoefe durchgehen, bis der mit der gleichen id gefunden wird, wie der in der Eingabe ; sonst wird eine Fehlermeldung ausgegeben
         for(Station s:listStations.stations){
            if(station.equals(s.getName())){
                 idStation=s.getId();
