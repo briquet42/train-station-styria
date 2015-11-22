@@ -24,8 +24,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".EnterNameActivity"></activity>
+        <activity android:name=".MainActivity"
+            android:label="Calculate next train station"></activity>
+        <activity android:name=".EnterNameActivity"
+            android:label="Enter a train station"></activity>
     </application>
 
 </manifest>

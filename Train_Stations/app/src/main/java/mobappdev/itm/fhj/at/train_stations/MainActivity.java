@@ -85,8 +85,9 @@ public class MainActivity extends Activity implements ICallBack, ICallBackDistan
 
     }
 
-
+    String stationName="";
     public void getNextStation(View v){
+
         if (isConnectingToInternet(getApplicationContext())){
             if(txtlatitude.getText().equals("") || txtlongitude.getText().equals("")){
                 txtOutput.setText("No position found! Calculate your position.");
@@ -112,9 +113,11 @@ public class MainActivity extends Activity implements ICallBack, ICallBackDistan
                     helperDistance = new HttpHelperDistance();
                     helperDistance.setCallback(this);
                     helperDistance.execute(nextStatURL);
-                    txtCity.setText(s.getName());
+                    stationName=s.getName();
+
                 }
             }}
+        txtCity.setText(stationName);
 
     }
 
