@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,10 +49,10 @@ public class MainActivity extends Activity implements ICallBack, ICallBackDistan
         txtlatitude=(TextView) findViewById(R.id.txtLati);
         txtOutput=(TextView) findViewById(R.id.txtOutput);
         txtCity=(TextView) findViewById(R.id.txtCityOutput);
-        txtCity.setVisibility(View.INVISIBLE);
+      //txtCity.setVisibility(View.INVISIBLE);
         /*Testzwecke*/
-        txtlatitude.setText("47.451999");
-        txtlongitude.setText("15.332649");
+        txtlatitude.setText("47.423189");
+        txtlongitude.setText("15.271334");
 
     }
 
@@ -100,7 +101,7 @@ public class MainActivity extends Activity implements ICallBack, ICallBackDistan
                 txtOutput.setText("");
                 txtCity.setText("");
                 //is invisible because it iterats the citys with lower costs
-                txtCity.setVisibility(View.INVISIBLE);
+               // txtCity.setVisibility(View.INVISIBLE);
 
                 String cityLat = txtlatitude.getText().toString();
                 String cityLon = txtlongitude.getText().toString();
@@ -194,7 +195,7 @@ public class MainActivity extends Activity implements ICallBack, ICallBackDistan
                     txtCity.setText(cityName);
                 }
             }
-
+            Toast.makeText(this,"Fertig",Toast.LENGTH_SHORT).show();
 
         } catch (JSONException e) {
             e.printStackTrace();

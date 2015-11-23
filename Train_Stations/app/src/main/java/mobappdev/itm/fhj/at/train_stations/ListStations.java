@@ -29,7 +29,7 @@ public class ListStations {
 
     public void addStations() {
         stations.add(sKap);
-
+        stations.add(sKapF);
         stations.add(sMarein);
         stations.add(sLeob);
         stations.add(sBruck);
@@ -38,6 +38,5 @@ public class ListStations {
         stations.add(sKin);
       //  stations.add(sUnz);
         stations.add(sGraz);
-        stations.add(sKapF);
     }
 }
