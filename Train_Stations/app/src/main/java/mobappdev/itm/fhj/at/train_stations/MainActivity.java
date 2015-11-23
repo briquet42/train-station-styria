@@ -49,9 +49,9 @@ public class MainActivity extends Activity implements ICallBack, ICallBackDistan
         txtOutput=(TextView) findViewById(R.id.txtOutput);
         txtCity=(TextView) findViewById(R.id.txtCityOutput);
         txtCity.setVisibility(View.INVISIBLE);
-        /*Testzwecke
-        txtlatitude.setText("47.45416");
-        txtlongitude.setText("15.3303");*/
+        /*Testzwecke*/
+        txtlatitude.setText("47.451999");
+        txtlongitude.setText("15.332649");
 
     }
 
@@ -85,7 +85,6 @@ public class MainActivity extends Activity implements ICallBack, ICallBackDistan
 
     }
 
-    String stationName="";
     public void getNextStation(View v){
 
         if (isConnectingToInternet(getApplicationContext())){
@@ -113,11 +112,11 @@ public class MainActivity extends Activity implements ICallBack, ICallBackDistan
                     helperDistance = new HttpHelperDistance();
                     helperDistance.setCallback(this);
                     helperDistance.execute(nextStatURL);
-                    stationName=s.getName();
+                    txtCity.setText(s.getName());
 
                 }
             }}
-        txtCity.setText(stationName);
+
 
     }
 
@@ -184,13 +183,14 @@ public class MainActivity extends Activity implements ICallBack, ICallBackDistan
                 //wenn eine Stadt mit mehr Namen vorkommt wird auf den Straﬂennamen geschaut
                 if(cityName.equals("Kapfenberg")){
                     String streets=parts[0];
-                    String street=streets.substring(0,5);
+                    String street=streets.substring(2,5);
+                    Log.i("!!!!!",street);
                     if(street.equals("Bah")){
                         txtCity.setText("Kapfenberg");
-                    }else if(street.equals("Wer")){
+                    }else{
                         txtCity.setText("Kapfenberg Fachhochschule");
                     }
-                }else {
+                }else{
                     txtCity.setText(cityName);
                 }
             }
