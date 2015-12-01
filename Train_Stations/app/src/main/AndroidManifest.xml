@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:theme="@style/main" >
         <activity
-            android:name=".StartActivity"
+            android:name=".activities.StartActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,9 +24,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
+        <activity android:name=".activities.MainActivity"
             android:label="Calculate next train station"></activity>
-        <activity android:name=".EnterNameActivity"
+        <activity android:name=".activities.EnterNameActivity"
             android:label="Enter a train station"></activity>
     </application>
 
