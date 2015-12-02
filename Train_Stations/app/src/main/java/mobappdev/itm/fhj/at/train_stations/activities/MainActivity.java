@@ -202,10 +202,17 @@ public class MainActivity extends Activity implements ICallBack, ICallBackDistan
                     txtCity.setText(cityName);
                 }
             }
-            Toast.makeText(this,"Fertig",Toast.LENGTH_SHORT).show();
+           // Toast.makeText(this,"Fertig",Toast.LENGTH_SHORT).show();
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //GPS is not needed when user is not on screen
+        lm.removeUpdates(ls);
     }
 }
