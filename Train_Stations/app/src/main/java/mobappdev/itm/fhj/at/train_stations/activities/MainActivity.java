@@ -58,8 +58,8 @@ public class MainActivity extends Activity implements ICallBack, ICallBackDistan
         txtCity=(TextView) findViewById(R.id.txtCityOutput);
       //txtCity.setVisibility(View.INVISIBLE);
         /*Testzwecke*/
-        txtlatitude.setText("47.423189");
-        txtlongitude.setText("15.271334");
+    /*    txtlatitude.setText("47.423189");
+        txtlongitude.setText("15.271334");*/
 
     }
 
@@ -94,6 +94,8 @@ public class MainActivity extends Activity implements ICallBack, ICallBackDistan
     }
 
     public void getNextStation(View v){
+        //braucht keine Updates mehr des GPS
+        lm.removeUpdates(ls);
 
         if (isConnectingToInternet(getApplicationContext())){
             if(txtlatitude.getText().equals("") || txtlongitude.getText().equals("")){
@@ -209,10 +211,10 @@ public class MainActivity extends Activity implements ICallBack, ICallBackDistan
         }
     }
 
+    //GPS ausschalten, wenn
     @Override
     protected void onPause() {
         super.onPause();
-        //GPS is not needed when user is not on screen
         lm.removeUpdates(ls);
     }
 }
